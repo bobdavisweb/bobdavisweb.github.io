@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>HaltingProblemGameTheory</title><link rel="stylesheet" href="Agda.css"></head><body><pre class="Agda"><a id="1" class="Keyword">module</a> <a id="8" href="HaltingProblemGameTheory.html" class="Module">HaltingProblemGameTheory</a> <a id="33" class="Keyword">where</a>
+
+<a id="40" class="Keyword">open</a> <a id="45" class="Keyword">import</a> <a id="52" href="Basic.html" class="Module">Basic</a>
+
+<a id="59" class="Comment">{-
+  Inputs:
+   * player 1&#39;s choice
+   * player 2&#39;s choice
+  
+  Outputs:
+   * winner; false for player 1, true for player 2
+-}</a>
+
+<a id="game"></a><a id="187" href="HaltingProblemGameTheory.html#187" class="Function">game</a> <a id="192" class="Symbol">:</a> <a id="194" href="Agda.Builtin.Bool.html#163" class="Datatype">Bool</a> <a id="199" class="Symbol">→</a> <a id="201" href="Agda.Builtin.Bool.html#163" class="Datatype">Bool</a> <a id="206" class="Symbol">→</a> <a id="208" href="Agda.Builtin.Bool.html#163" class="Datatype">Bool</a>
+<a id="213" href="HaltingProblemGameTheory.html#187" class="Function">game</a> <a id="218" href="HaltingProblemGameTheory.html#218" class="Bound">x</a> <a id="220" href="HaltingProblemGameTheory.html#220" class="Bound">y</a> <a id="222" class="Symbol">=</a> <a id="224" href="HaltingProblemGameTheory.html#218" class="Bound">x</a> <a id="226" href="Data.Bool.Base.html#1101" class="Function Operator">xor</a> <a id="230" href="HaltingProblemGameTheory.html#220" class="Bound">y</a>
+
+<a id="233" class="Comment">{-
+  Player 2 can always win
+-}</a>
+<a id="player2-wins"></a><a id="265" href="HaltingProblemGameTheory.html#265" class="Function">player2-wins</a> <a id="278" class="Symbol">:</a> <a id="280" class="Symbol">(</a><a id="281" href="HaltingProblemGameTheory.html#281" class="Bound">player1-choice</a> <a id="296" class="Symbol">:</a> <a id="298" href="Agda.Builtin.Bool.html#163" class="Datatype">Bool</a><a id="302" class="Symbol">)</a> <a id="304" class="Symbol">→</a> <a id="306" href="Data.Product.html#916" class="Function">Σ[</a> <a id="309" href="HaltingProblemGameTheory.html#309" class="Bound">player2-choice</a> <a id="324" href="Data.Product.html#916" class="Function">∈</a> <a id="326" href="Agda.Builtin.Bool.html#163" class="Datatype">Bool</a> <a id="331" href="Data.Product.html#916" class="Function">]</a> <a id="333" class="Symbol">(</a><a id="334" href="HaltingProblemGameTheory.html#187" class="Function">game</a> <a id="339" href="HaltingProblemGameTheory.html#281" class="Bound">player1-choice</a> <a id="354" href="HaltingProblemGameTheory.html#309" class="Bound">player2-choice</a> <a id="369" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="371" href="Agda.Builtin.Bool.html#188" class="InductiveConstructor">true</a><a id="375" class="Symbol">)</a>
+<a id="377" href="HaltingProblemGameTheory.html#265" class="Function">player2-wins</a> <a id="390" href="Agda.Builtin.Bool.html#188" class="InductiveConstructor">true</a> <a id="395" class="Symbol">=</a> <a id="397" href="Agda.Builtin.Bool.html#182" class="InductiveConstructor">false</a> <a id="403" href="Agda.Builtin.Sigma.html#236" class="InductiveConstructor Operator">,</a> <a id="405" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a>
+<a id="410" href="HaltingProblemGameTheory.html#265" class="Function">player2-wins</a> <a id="423" href="Agda.Builtin.Bool.html#182" class="InductiveConstructor">false</a> <a id="429" class="Symbol">=</a> <a id="431" href="Agda.Builtin.Bool.html#188" class="InductiveConstructor">true</a> <a id="436" href="Agda.Builtin.Sigma.html#236" class="InductiveConstructor Operator">,</a> <a id="438" href="Agda.Builtin.Equality.html#208" class="InductiveConstructor">refl</a>
+
+<a id="444" class="Comment">{-
+  This proves the undecidability of the halting problem for Turing machines;
+  * the halting decider H is player 1
+  * the diagonalization gadget K is player 2
+  Works for any property of the partial function defining the I/O behavior of the machine. If you have one machine
+  that satisfies the property, and another machine that doesn&#39;t, then you can make K choose to do one or the other
+  depending on what H decides.
+
+  K always wins, H is always wrong.
+
+  Note that by another interpretation, H is always right but in a language where the meaning of the terms is changed.
+  The label &quot;false&quot; now indicates that K will halt, and &quot;true&quot; now indicates that K will loop.
+-}</a>
+</pre></body></html>

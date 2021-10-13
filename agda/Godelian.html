@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html><head><meta charset="utf-8"><title>Godelian</title><link rel="stylesheet" href="Agda.css"></head><body><pre class="Agda"><a id="1" class="Keyword">module</a> <a id="8" href="Godelian.html" class="Module">Godelian</a> <a id="17" class="Keyword">where</a>
+
+<a id="24" class="Keyword">open</a> <a id="29" class="Keyword">import</a> <a id="36" href="Agda.Primitive.html" class="Module">Agda.Primitive</a>
+<a id="51" class="Keyword">open</a> <a id="56" class="Keyword">import</a> <a id="63" href="Basic.html" class="Module">Basic</a> <a id="69" class="Keyword">hiding</a> <a id="76" class="Symbol">(</a><a id="77" href="Data.List.Base.html#4730" class="Function">all</a><a id="80" class="Symbol">)</a>
+<a id="82" class="Keyword">open</a> <a id="87" class="Keyword">import</a> <a id="94" href="TuringMachine3.html" class="Module">TuringMachine3</a>
+<a id="109" class="Keyword">open</a> <a id="114" class="Keyword">import</a> <a id="121" href="MuRecursive.html" class="Module">MuRecursive</a>
+<a id="133" class="Keyword">open</a> <a id="138" class="Keyword">import</a> <a id="145" href="FOL.html" class="Module">FOL</a>
+
+<a id="150" class="Keyword">record</a> <a id="Domain"></a><a id="157" href="Godelian.html#157" class="Record">Domain</a>
+  <a id="166" class="Symbol">:</a> <a id="168" class="PrimitiveType">Set₂</a> <a id="173" class="Keyword">where</a>
+  <a id="181" class="Keyword">field</a>
+    <a id="191" class="Comment">{-
+      The signature of the theory
+    -}</a>
+    <a id="Domain.n"></a><a id="239" href="Godelian.html#239" class="Field">n</a> <a id="241" class="Symbol">:</a> <a id="243" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a>
+    <a id="Domain.T"></a><a id="249" href="Godelian.html#249" class="Field">T</a> <a id="251" class="Symbol">:</a> <a id="253" href="FOL.html#207" class="Datatype">FOL</a> <a id="257" href="Godelian.html#239" class="Field">n</a>
+
+    <a id="264" class="Comment">{-
+      The model M of the theory T
+    -}</a>
+    <a id="Domain.rels"></a><a id="312" href="Godelian.html#312" class="Field">rels</a> <a id="317" class="Symbol">:</a> <a id="319" href="Data.Fin.Base.html#1126" class="Datatype">Fin</a> <a id="323" href="Godelian.html#239" class="Field">n</a> <a id="325" class="Symbol">→</a> <a id="327" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="329" class="Symbol">→</a> <a id="331" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="333" class="Symbol">→</a> <a id="335" class="PrimitiveType">Set</a>
+    <a id="Domain.objs"></a><a id="343" href="Godelian.html#343" class="Field">objs</a> <a id="348" class="Symbol">:</a> <a id="350" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="352" class="Symbol">→</a> <a id="354" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a>
+
+    <a id="361" class="Comment">{-
+      Assertion that M is a model of T
+    -}</a>
+    <a id="Domain.M-models-T"></a><a id="414" href="Godelian.html#414" class="Field">M-models-T</a> <a id="425" class="Symbol">:</a> <a id="427" href="FOL.html#1889" class="Function">model</a> <a id="433" href="Godelian.html#249" class="Field">T</a> <a id="435" class="Keyword">record</a><a id="441" class="Symbol">{</a> <a id="443" href="FOL.html#503" class="Field">A</a> <a id="445" class="Symbol">=</a> <a id="447" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="449" class="Symbol">;</a> <a id="451" href="FOL.html#514" class="Field">objs</a> <a id="456" class="Symbol">=</a> <a id="458" href="Godelian.html#343" class="Field">objs</a> <a id="463" class="Symbol">;</a> <a id="465" href="FOL.html#530" class="Field">rels</a> <a id="470" class="Symbol">=</a> <a id="472" href="Godelian.html#312" class="Field">rels</a> <a id="477" class="Symbol">}</a>
+
+    <a id="484" class="Comment">{-
+      The set of proofs
+    -}</a>
+    <a id="Domain.proofs"></a><a id="522" href="Godelian.html#522" class="Field">proofs</a> <a id="529" class="Symbol">:</a> <a id="531" class="PrimitiveType">Set</a>
+
+    <a id="540" class="Comment">{-
+      Derivability
+    -}</a>
+    <a id="Domain.⊢"></a><a id="573" href="Godelian.html#573" class="Field">⊢</a> <a id="575" class="Symbol">:</a> <a id="577" href="FOL.html#207" class="Datatype">FOL</a> <a id="581" href="Godelian.html#239" class="Field">n</a> <a id="583" class="Symbol">→</a> <a id="585" class="PrimitiveType">Set</a>
+
+    <a id="Domain.proves"></a><a id="594" href="Godelian.html#594" class="Field">proves</a> <a id="601" class="Symbol">:</a> <a id="603" href="Godelian.html#522" class="Field">proofs</a> <a id="610" class="Symbol">→</a> <a id="612" href="FOL.html#207" class="Datatype">FOL</a> <a id="616" href="Godelian.html#239" class="Field">n</a> <a id="618" class="Symbol">→</a> <a id="620" class="PrimitiveType">Set</a>
+    <a id="628" class="Comment">{-
+      ϕ is derivable if there exists a proof p such that p proves ϕ
+    -}</a>
+    <a id="Domain.⊢-semantics"></a><a id="710" href="Godelian.html#710" class="Field">⊢-semantics</a> <a id="722" class="Symbol">:</a> <a id="724" class="Symbol">(</a><a id="725" href="Godelian.html#725" class="Bound">ϕ</a> <a id="727" class="Symbol">:</a> <a id="729" href="FOL.html#207" class="Datatype">FOL</a> <a id="733" href="Godelian.html#239" class="Field">n</a><a id="734" class="Symbol">)</a> <a id="736" class="Symbol">→</a> <a id="738" class="Symbol">(</a><a id="739" href="Godelian.html#573" class="Field">⊢</a> <a id="741" href="Godelian.html#725" class="Bound">ϕ</a><a id="742" class="Symbol">)</a> <a id="744" href="Basic.html#2337" class="Function Operator">↔</a> <a id="746" class="Symbol">(</a><a id="747" href="Data.Product.html#916" class="Function">Σ[</a> <a id="750" href="Godelian.html#750" class="Bound">p</a> <a id="752" href="Data.Product.html#916" class="Function">∈</a> <a id="754" href="Godelian.html#522" class="Field">proofs</a> <a id="761" href="Data.Product.html#916" class="Function">]</a> <a id="763" class="Symbol">(</a><a id="764" href="Godelian.html#594" class="Field">proves</a> <a id="771" href="Godelian.html#750" class="Bound">p</a> <a id="773" href="Godelian.html#725" class="Bound">ϕ</a><a id="774" class="Symbol">))</a>
+    <a id="781" class="Comment">{-
+      Soundness: derivability implies semantic entailment
+    -}</a>
+    <a id="Domain.⊢-sound"></a><a id="853" href="Godelian.html#853" class="Field">⊢-sound</a> <a id="861" class="Symbol">:</a> <a id="863" class="Symbol">(</a><a id="864" href="Godelian.html#864" class="Bound">ϕ</a> <a id="866" class="Symbol">:</a> <a id="868" href="FOL.html#207" class="Datatype">FOL</a> <a id="872" href="Godelian.html#239" class="Field">n</a><a id="873" class="Symbol">)</a> <a id="875" class="Symbol">→</a> <a id="877" class="Symbol">(</a><a id="878" href="Godelian.html#573" class="Field">⊢</a> <a id="880" href="Godelian.html#864" class="Bound">ϕ</a><a id="881" class="Symbol">)</a> <a id="883" class="Symbol">→</a> <a id="885" class="Symbol">(</a><a id="886" href="Godelian.html#249" class="Field">T</a> <a id="888" href="FOL.html#2021" class="Function Operator">⊨</a> <a id="890" href="Godelian.html#864" class="Bound">ϕ</a><a id="891" class="Symbol">)</a>
+    <a id="897" class="Comment">{-
+      Consistency: there is no statement ϕ such that both ϕ and ~ϕ are derivable
+    -}</a>
+    <a id="Domain.⊢-consistent"></a><a id="992" href="Godelian.html#992" class="Field">⊢-consistent</a> <a id="1005" class="Symbol">:</a> <a id="1007" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="1009" class="Symbol">(</a><a id="1010" href="Data.Product.html#916" class="Function">Σ[</a> <a id="1013" href="Godelian.html#1013" class="Bound">ϕ</a> <a id="1015" href="Data.Product.html#916" class="Function">∈</a> <a id="1017" href="FOL.html#207" class="Datatype">FOL</a> <a id="1021" href="Godelian.html#239" class="Field">n</a> <a id="1023" href="Data.Product.html#916" class="Function">]</a> <a id="1025" class="Symbol">(</a><a id="1026" href="Godelian.html#573" class="Field">⊢</a> <a id="1028" href="Godelian.html#1013" class="Bound">ϕ</a> <a id="1030" href="Data.Product.html#1167" class="Function Operator">×</a> <a id="1032" href="Godelian.html#573" class="Field">⊢</a> <a id="1034" class="Symbol">(</a><a id="1035" href="FOL.html#307" class="InductiveConstructor">~</a> <a id="1037" href="Godelian.html#1013" class="Bound">ϕ</a><a id="1038" class="Symbol">)))</a>
+
+    <a id="1047" class="Comment">{-
+      The Godel statement
+    -}</a>
+    <a id="Domain.Godel"></a><a id="1087" href="Godelian.html#1087" class="Field">Godel</a> <a id="1093" class="Symbol">:</a> <a id="1095" href="FOL.html#207" class="Datatype">FOL</a> <a id="1099" href="Godelian.html#239" class="Field">n</a>
+
+    <a id="1106" class="Comment">{-
+      The semantics of the Godel statement: that the intuitive statement that there is no proof of G is a logical consequence of the literal interpretation of G into model M
+    -}</a>
+    <a id="Domain.Godel-semantics"></a><a id="1294" href="Godelian.html#1294" class="Field">Godel-semantics</a> <a id="1310" class="Symbol">:</a> <a id="1312" class="Symbol">(</a><a id="1313" href="FOL.html#1763" class="Function">I</a> <a id="1315" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="1317" href="Godelian.html#343" class="Field">objs</a> <a id="1322" href="Godelian.html#312" class="Field">rels</a> <a id="1327" href="Godelian.html#1087" class="Field">Godel</a><a id="1332" class="Symbol">)</a> <a id="1334" class="Symbol">→</a> <a id="1336" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="1338" class="Symbol">(</a><a id="1339" href="Data.Product.html#916" class="Function">Σ[</a> <a id="1342" href="Godelian.html#1342" class="Bound">p</a> <a id="1344" href="Data.Product.html#916" class="Function">∈</a> <a id="1346" href="Godelian.html#522" class="Field">proofs</a> <a id="1353" href="Data.Product.html#916" class="Function">]</a> <a id="1355" class="Symbol">(</a><a id="1356" href="Godelian.html#594" class="Field">proves</a> <a id="1363" href="Godelian.html#1342" class="Bound">p</a> <a id="1365" href="Godelian.html#1087" class="Field">Godel</a><a id="1370" class="Symbol">))</a>
+
+    <a id="1378" class="Comment">{-
+      ???
+    -}</a>
+    <a id="Domain.Godel-semantics2"></a><a id="1402" href="Godelian.html#1402" class="Field">Godel-semantics2</a> <a id="1419" class="Symbol">:</a> <a id="1421" class="Symbol">(</a><a id="1422" href="Godelian.html#1422" class="Bound">subs</a> <a id="1427" class="Symbol">:</a> <a id="1429" href="Agda.Builtin.List.html#148" class="Datatype">List</a> <a id="1434" class="Symbol">(</a><a id="1435" href="FOL.html#65" class="Datatype">Var</a> <a id="1439" href="Data.Product.html#1167" class="Function Operator">×</a> <a id="1441" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a><a id="1442" class="Symbol">))</a> <a id="1445" class="Symbol">→</a> <a id="1447" class="Symbol">((</a><a id="1449" href="FOL.html#736" class="Function">I-helper</a> <a id="1458" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="1460" href="Godelian.html#343" class="Field">objs</a> <a id="1465" href="Godelian.html#312" class="Field">rels</a> <a id="1470" href="Godelian.html#1422" class="Bound">subs</a> <a id="1475" href="Godelian.html#1087" class="Field">Godel</a><a id="1480" class="Symbol">)</a> <a id="1482" href="Basic.html#2337" class="Function Operator">↔</a> <a id="1484" class="Symbol">(</a><a id="1485" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="1487" class="Symbol">(</a><a id="1488" href="Data.Product.html#916" class="Function">Σ[</a> <a id="1491" href="Godelian.html#1491" class="Bound">p</a> <a id="1493" href="Data.Product.html#916" class="Function">∈</a> <a id="1495" href="Godelian.html#522" class="Field">proofs</a> <a id="1502" href="Data.Product.html#916" class="Function">]</a> <a id="1504" class="Symbol">(</a><a id="1505" href="Godelian.html#594" class="Field">proves</a> <a id="1512" href="Godelian.html#1491" class="Bound">p</a> <a id="1514" href="Godelian.html#1087" class="Field">Godel</a><a id="1519" class="Symbol">))))</a>
+
+    <a id="1529" class="Comment">{-
+      NON-CONSTRUCTIVE!
+      A double negation elimination axiom for the `proves` relation.
+    -}</a>
+    <a id="Domain.proof-DNE"></a><a id="1636" href="Godelian.html#1636" class="Field">proof-DNE</a> <a id="1646" class="Symbol">:</a> <a id="1648" class="Symbol">(</a><a id="1649" href="Godelian.html#1649" class="Bound">ϕ</a> <a id="1651" class="Symbol">:</a> <a id="1653" href="FOL.html#207" class="Datatype">FOL</a> <a id="1657" href="Godelian.html#239" class="Field">n</a><a id="1658" class="Symbol">)</a> <a id="1660" class="Symbol">→</a> <a id="1662" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="1664" class="Symbol">(</a><a id="1665" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="1667" class="Symbol">(</a><a id="1668" href="Data.Product.html#916" class="Function">Σ[</a> <a id="1671" href="Godelian.html#1671" class="Bound">p</a> <a id="1673" href="Data.Product.html#916" class="Function">∈</a> <a id="1675" href="Godelian.html#522" class="Field">proofs</a> <a id="1682" href="Data.Product.html#916" class="Function">]</a> <a id="1684" class="Symbol">(</a><a id="1685" href="Godelian.html#594" class="Field">proves</a> <a id="1692" href="Godelian.html#1671" class="Bound">p</a> <a id="1694" href="Godelian.html#1649" class="Bound">ϕ</a><a id="1695" class="Symbol">)))</a> <a id="1699" class="Symbol">→</a> <a id="1701" href="Data.Product.html#916" class="Function">Σ[</a> <a id="1704" href="Godelian.html#1704" class="Bound">p</a> <a id="1706" href="Data.Product.html#916" class="Function">∈</a> <a id="1708" href="Godelian.html#522" class="Field">proofs</a> <a id="1715" href="Data.Product.html#916" class="Function">]</a> <a id="1717" class="Symbol">(</a><a id="1718" href="Godelian.html#594" class="Field">proves</a> <a id="1725" href="Godelian.html#1704" class="Bound">p</a> <a id="1727" href="Godelian.html#1649" class="Bound">ϕ</a><a id="1728" class="Symbol">)</a>
+
+    <a id="1735" class="Comment">{-
+      The Godel encoding
+    -}</a>
+    <a id="Domain.e₁"></a><a id="1774" href="Godelian.html#1774" class="Field">e₁</a> <a id="1777" class="Symbol">:</a> <a id="1779" href="FOL.html#207" class="Datatype">FOL</a> <a id="1783" href="Godelian.html#239" class="Field">n</a> <a id="1785" class="Symbol">→</a> <a id="1787" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a>
+    <a id="Domain.e₁-bijective"></a><a id="1793" href="Godelian.html#1793" class="Field">e₁-bijective</a> <a id="1806" class="Symbol">:</a> <a id="1808" href="Basic.html#4922" class="Function">Bijective</a> <a id="1818" href="Godelian.html#1774" class="Field">e₁</a>
+
+    <a id="1826" class="Comment">{-
+      ???
+    -}</a>
+    <a id="Domain.GTh"></a><a id="1850" href="Godelian.html#1850" class="Field">GTh</a> <a id="1854" class="Symbol">:</a> <a id="1856" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="1858" class="Symbol">→</a> <a id="1860" class="PrimitiveType">Set₁</a>
+
+    <a id="1870" class="Comment">{-
+      ???
+    -}</a>
+    <a id="Domain.GTh-semantics"></a><a id="1894" href="Godelian.html#1894" class="Field">GTh-semantics</a> <a id="1908" class="Symbol">:</a> <a id="1910" href="Godelian.html#1850" class="Field">GTh</a> <a id="1914" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="1916" class="Symbol">(λ</a> <a id="1919" href="Godelian.html#1919" class="Bound">m</a> <a id="1921" class="Symbol">→</a> <a id="1923" class="Symbol">(</a><a id="1924" href="Data.Product.html#916" class="Function">Σ[</a> <a id="1927" href="Godelian.html#1927" class="Bound">ϕ</a> <a id="1929" href="Data.Product.html#916" class="Function">∈</a> <a id="1931" href="FOL.html#207" class="Datatype">FOL</a> <a id="1935" href="Godelian.html#239" class="Field">n</a> <a id="1937" href="Data.Product.html#916" class="Function">]</a> <a id="1939" class="Symbol">(</a><a id="1940" href="Godelian.html#1774" class="Field">e₁</a> <a id="1943" href="Godelian.html#1927" class="Bound">ϕ</a> <a id="1945" href="Agda.Builtin.Equality.html#151" class="Datatype Operator">≡</a> <a id="1947" href="Godelian.html#1919" class="Bound">m</a> <a id="1949" href="Data.Product.html#1167" class="Function Operator">×</a> <a id="1951" href="Godelian.html#249" class="Field">T</a> <a id="1953" href="FOL.html#2021" class="Function Operator">⊨</a> <a id="1955" href="Godelian.html#1927" class="Bound">ϕ</a><a id="1956" class="Symbol">)))</a>
+    
+
+<a id="1966" class="Comment">{-
+Godel&#39;s incompleteness theorem part 1: the Godel statement is unprovable
+-}</a>
+<a id="Godel-theorem"></a><a id="2045" href="Godelian.html#2045" class="Function">Godel-theorem</a> <a id="2059" class="Symbol">:</a>
+  <a id="2063" class="Symbol">(</a><a id="2064" href="Godelian.html#2064" class="Bound">D</a> <a id="2066" class="Symbol">:</a> <a id="2068" href="Godelian.html#157" class="Record">Domain</a><a id="2074" class="Symbol">)</a> <a id="2076" class="Symbol">→</a>
+  <a id="2080" class="Keyword">let</a>
+    <a id="2088" href="Godelian.html#2088" class="Bound">G</a> <a id="2090" class="Symbol">=</a> <a id="2092" href="Godelian.html#1087" class="Field">Domain.Godel</a> <a id="2105" href="Godelian.html#2064" class="Bound">D</a>
+    <a id="2111" href="Godelian.html#2111" class="Bound">G-semantics</a> <a id="2123" class="Symbol">=</a> <a id="2125" href="Godelian.html#1294" class="Field">Domain.Godel-semantics</a> <a id="2148" href="Godelian.html#2064" class="Bound">D</a>
+    <a id="2154" href="Godelian.html#2154" class="Bound">⊢</a> <a id="2156" class="Symbol">=</a> <a id="2158" href="Godelian.html#573" class="Field">Domain.⊢</a> <a id="2167" href="Godelian.html#2064" class="Bound">D</a>
+  <a id="2171" class="Keyword">in</a>
+    <a id="2178" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="2180" class="Symbol">(</a><a id="2181" href="Godelian.html#2154" class="Bound">⊢</a> <a id="2183" href="Godelian.html#2088" class="Bound">G</a><a id="2184" class="Symbol">)</a>
+<a id="2186" href="Godelian.html#2045" class="Function">Godel-theorem</a> <a id="2200" href="Godelian.html#2200" class="Bound">D</a> <a id="2202" href="Godelian.html#2202" class="Bound">⊢G</a> <a id="2205" class="Symbol">=</a> <a id="2207" href="Godelian.html#3138" class="Function">contradiction</a>
+  <a id="2223" class="Keyword">where</a>
+    <a id="2233" class="Keyword">open</a> <a id="2238" href="Godelian.html#157" class="Module">Domain</a> <a id="2245" href="Godelian.html#2200" class="Bound">D</a>
+
+    <a id="2252" href="Godelian.html#2252" class="Function">G</a> <a id="2254" class="Symbol">=</a> <a id="2256" href="Godelian.html#1087" class="Function">Godel</a>
+
+    <a id="2267" href="Godelian.html#2267" class="Function">M</a> <a id="2269" class="Symbol">:</a> <a id="2271" href="FOL.html#453" class="Record">PreInterpretation</a> <a id="2289" class="Symbol">{</a><a id="2290" href="Godelian.html#239" class="Function">n</a><a id="2291" class="Symbol">}</a>
+    <a id="2297" href="Godelian.html#2267" class="Function">M</a> <a id="2299" class="Symbol">=</a> <a id="2301" class="Keyword">record</a> <a id="2308" class="Symbol">{</a>
+        <a id="2318" href="FOL.html#503" class="Field">A</a> <a id="2320" class="Symbol">=</a> <a id="2322" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="2324" class="Symbol">;</a>
+        <a id="2334" href="FOL.html#514" class="Field">objs</a> <a id="2339" class="Symbol">=</a> <a id="2341" href="Godelian.html#343" class="Function">objs</a> <a id="2346" class="Symbol">;</a>
+        <a id="2356" href="FOL.html#530" class="Field">rels</a> <a id="2361" class="Symbol">=</a> <a id="2363" href="Godelian.html#312" class="Function">rels</a>
+      <a id="2374" class="Symbol">}</a>
+
+    <a id="2381" class="Comment">{-
+      We assumed ⊢ G is true, so soundness implies T ⊨ G
+    -}</a>
+    <a id="2452" href="Godelian.html#2452" class="Function">T⊨G</a> <a id="2456" class="Symbol">:</a> <a id="2458" href="Godelian.html#249" class="Function">T</a> <a id="2460" href="FOL.html#2021" class="Function Operator">⊨</a> <a id="2462" href="Godelian.html#2252" class="Function">G</a>
+    <a id="2468" href="Godelian.html#2452" class="Function">T⊨G</a> <a id="2472" class="Symbol">=</a> <a id="2474" href="Godelian.html#853" class="Function">⊢-sound</a> <a id="2482" href="Godelian.html#2252" class="Function">G</a> <a id="2484" href="Godelian.html#2202" class="Bound">⊢G</a>
+
+    <a id="2492" class="Comment">{-
+      The interpretation of the godel statement G is true in model M because T ⊨ G and M models T
+    -}</a>
+    <a id="2604" href="Godelian.html#2604" class="Function">G-interpretation</a> <a id="2621" class="Symbol">:</a> <a id="2623" href="FOL.html#1763" class="Function">I</a> <a id="2625" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="2627" href="Godelian.html#343" class="Function">objs</a> <a id="2632" href="Godelian.html#312" class="Function">rels</a> <a id="2637" href="Godelian.html#2252" class="Function">G</a>
+    <a id="2643" href="Godelian.html#2604" class="Function">G-interpretation</a> <a id="2660" class="Symbol">=</a> <a id="2662" href="Godelian.html#2452" class="Function">T⊨G</a> <a id="2666" href="Godelian.html#2267" class="Function">M</a> <a id="2668" href="Godelian.html#414" class="Function">M-models-T</a>
+
+    <a id="2684" class="Comment">{-
+      The intuitive semantics of G, i.e. that there is no proof of G, is a logical consequence of the literal interpretation by the model M
+    -}</a>
+    <a id="2838" href="Godelian.html#2838" class="Function">¬[G-provable]</a> <a id="2852" class="Symbol">:</a> <a id="2854" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="2856" class="Symbol">(</a><a id="2857" href="Data.Product.html#916" class="Function">Σ[</a> <a id="2860" href="Godelian.html#2860" class="Bound">p</a> <a id="2862" href="Data.Product.html#916" class="Function">∈</a> <a id="2864" href="Godelian.html#522" class="Function">proofs</a> <a id="2871" href="Data.Product.html#916" class="Function">]</a> <a id="2873" class="Symbol">(</a><a id="2874" href="Godelian.html#594" class="Function">proves</a> <a id="2881" href="Godelian.html#2860" class="Bound">p</a> <a id="2883" href="Godelian.html#2252" class="Function">G</a><a id="2884" class="Symbol">))</a>
+    <a id="2891" href="Godelian.html#2838" class="Function">¬[G-provable]</a> <a id="2905" class="Symbol">=</a> <a id="2907" href="Godelian.html#1294" class="Function">Godel-semantics</a> <a id="2923" href="Godelian.html#2604" class="Function">G-interpretation</a>
+
+    <a id="2945" class="Comment">{-
+      The semantics of ⊢ is such that ⊢ ϕ implies ∃p,proves(p,ϕ)
+    -}</a>
+    <a id="3024" href="Godelian.html#3024" class="Function">G-provable</a> <a id="3035" class="Symbol">:</a> <a id="3037" class="Symbol">(</a><a id="3038" href="Data.Product.html#916" class="Function">Σ[</a> <a id="3041" href="Godelian.html#3041" class="Bound">p</a> <a id="3043" href="Data.Product.html#916" class="Function">∈</a> <a id="3045" href="Godelian.html#522" class="Function">proofs</a> <a id="3052" href="Data.Product.html#916" class="Function">]</a> <a id="3054" class="Symbol">(</a><a id="3055" href="Godelian.html#594" class="Function">proves</a> <a id="3062" href="Godelian.html#3041" class="Bound">p</a> <a id="3064" href="Godelian.html#2252" class="Function">G</a><a id="3065" class="Symbol">))</a>
+    <a id="3072" href="Godelian.html#3024" class="Function">G-provable</a> <a id="3083" class="Symbol">=</a> <a id="3085" class="Symbol">(</a><a id="3086" href="Agda.Builtin.Sigma.html#252" class="Field">proj₁</a> <a id="3092" class="Symbol">(</a><a id="3093" href="Godelian.html#710" class="Function">⊢-semantics</a> <a id="3105" href="Godelian.html#2252" class="Function">G</a><a id="3106" class="Symbol">))</a> <a id="3109" href="Godelian.html#2202" class="Bound">⊢G</a>
+
+    <a id="3117" class="Comment">{-
+      
+    -}</a>
+    <a id="3138" href="Godelian.html#3138" class="Function">contradiction</a> <a id="3152" class="Symbol">=</a> <a id="3154" href="Godelian.html#2838" class="Function">¬[G-provable]</a> <a id="3168" href="Godelian.html#3024" class="Function">G-provable</a>
+
+
+<a id="3181" class="Comment">{-
+Godel&#39;s incompleteness theorem part 2: the negation of the Godel statement is unprovable
+-}</a>
+<a id="Godel-theorem2"></a><a id="3276" href="Godelian.html#3276" class="Function">Godel-theorem2</a> <a id="3291" class="Symbol">:</a>
+  <a id="3295" class="Symbol">(</a><a id="3296" href="Godelian.html#3296" class="Bound">D</a> <a id="3298" class="Symbol">:</a> <a id="3300" href="Godelian.html#157" class="Record">Domain</a><a id="3306" class="Symbol">)</a> <a id="3308" class="Symbol">→</a>
+  <a id="3312" class="Keyword">let</a>
+    <a id="3320" href="Godelian.html#3320" class="Bound">G</a> <a id="3322" class="Symbol">=</a> <a id="3324" href="Godelian.html#1087" class="Field">Domain.Godel</a> <a id="3337" href="Godelian.html#3296" class="Bound">D</a>
+    <a id="3343" href="Godelian.html#3343" class="Bound">G-semantics</a> <a id="3355" class="Symbol">=</a> <a id="3357" href="Godelian.html#1294" class="Field">Domain.Godel-semantics</a> <a id="3380" href="Godelian.html#3296" class="Bound">D</a>
+    <a id="3386" href="Godelian.html#3386" class="Bound">⊢</a> <a id="3388" class="Symbol">=</a> <a id="3390" href="Godelian.html#573" class="Field">Domain.⊢</a> <a id="3399" href="Godelian.html#3296" class="Bound">D</a>
+  <a id="3403" class="Keyword">in</a>
+    <a id="3410" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="3412" class="Symbol">(</a><a id="3413" href="Godelian.html#3386" class="Bound">⊢</a> <a id="3415" class="Symbol">(</a><a id="3416" href="FOL.html#307" class="InductiveConstructor">~</a> <a id="3418" href="Godelian.html#3320" class="Bound">G</a><a id="3419" class="Symbol">))</a>
+<a id="3422" href="Godelian.html#3276" class="Function">Godel-theorem2</a> <a id="3437" href="Godelian.html#3437" class="Bound">D</a> <a id="3439" href="Godelian.html#3439" class="Bound">⊢~G</a> <a id="3443" class="Symbol">=</a> <a id="3445" href="Godelian.html#4959" class="Function">contradiction</a>
+  <a id="3461" class="Keyword">where</a>
+    <a id="3471" class="Keyword">open</a> <a id="3476" href="Godelian.html#157" class="Module">Domain</a> <a id="3483" href="Godelian.html#3437" class="Bound">D</a>
+
+    <a id="3490" href="Godelian.html#3490" class="Function">G</a> <a id="3492" class="Symbol">=</a> <a id="3494" href="Godelian.html#1087" class="Function">Godel</a>
+
+    <a id="3505" href="Godelian.html#3505" class="Function">M</a> <a id="3507" class="Symbol">:</a> <a id="3509" href="FOL.html#453" class="Record">PreInterpretation</a> <a id="3527" class="Symbol">{</a><a id="3528" href="Godelian.html#239" class="Function">n</a><a id="3529" class="Symbol">}</a>
+    <a id="3535" href="Godelian.html#3505" class="Function">M</a> <a id="3537" class="Symbol">=</a> <a id="3539" class="Keyword">record</a> <a id="3546" class="Symbol">{</a>
+        <a id="3556" href="FOL.html#503" class="Field">A</a> <a id="3558" class="Symbol">=</a> <a id="3560" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="3562" class="Symbol">;</a>
+        <a id="3572" href="FOL.html#514" class="Field">objs</a> <a id="3577" class="Symbol">=</a> <a id="3579" href="Godelian.html#343" class="Function">objs</a> <a id="3584" class="Symbol">;</a>
+        <a id="3594" href="FOL.html#530" class="Field">rels</a> <a id="3599" class="Symbol">=</a> <a id="3601" href="Godelian.html#312" class="Function">rels</a>
+      <a id="3612" class="Symbol">}</a>
+
+    <a id="3619" class="Comment">{-
+      We assumed ⊢ ~G is true, so soundness implies T ⊨ ~G
+    -}</a>
+    <a id="3692" href="Godelian.html#3692" class="Function">T⊨~G</a> <a id="3697" class="Symbol">:</a> <a id="3699" href="Godelian.html#249" class="Function">T</a> <a id="3701" href="FOL.html#2021" class="Function Operator">⊨</a> <a id="3703" class="Symbol">(</a><a id="3704" href="FOL.html#307" class="InductiveConstructor">~</a> <a id="3706" href="Godelian.html#3490" class="Function">G</a><a id="3707" class="Symbol">)</a>
+    <a id="3713" href="Godelian.html#3692" class="Function">T⊨~G</a> <a id="3718" class="Symbol">=</a> <a id="3720" href="Godelian.html#853" class="Function">⊢-sound</a> <a id="3728" class="Symbol">(</a><a id="3729" href="FOL.html#307" class="InductiveConstructor">~</a> <a id="3731" href="Godelian.html#3490" class="Function">G</a><a id="3732" class="Symbol">)</a> <a id="3734" href="Godelian.html#3439" class="Bound">⊢~G</a>
+
+    <a id="3743" class="Comment">{-
+      The interpretation of ~G by model M
+    -}</a>
+    <a id="3799" href="Godelian.html#3799" class="Function">~G-interpretation</a> <a id="3817" class="Symbol">:</a> <a id="3819" href="FOL.html#1763" class="Function">I</a> <a id="3821" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="3823" href="Godelian.html#343" class="Function">objs</a> <a id="3828" href="Godelian.html#312" class="Function">rels</a> <a id="3833" class="Symbol">(</a><a id="3834" href="FOL.html#307" class="InductiveConstructor">~</a> <a id="3836" href="Godelian.html#3490" class="Function">G</a><a id="3837" class="Symbol">)</a>
+    <a id="3843" href="Godelian.html#3799" class="Function">~G-interpretation</a> <a id="3861" class="Symbol">=</a> <a id="3863" href="Godelian.html#3692" class="Function">T⊨~G</a> <a id="3868" href="Godelian.html#3505" class="Function">M</a> <a id="3870" href="Godelian.html#414" class="Function">M-models-T</a>
+
+    <a id="3886" class="Comment">{-
+      The interpretation of ~G is the negation of the interpretation of G
+    -}</a>
+    <a id="3974" href="Godelian.html#3974" class="Function">¬[G-interpretation]</a> <a id="3994" class="Symbol">:</a> <a id="3996" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="3998" class="Symbol">(</a><a id="3999" href="FOL.html#736" class="Function">I-helper</a> <a id="4008" href="Agda.Builtin.Nat.html#192" class="Datatype">ℕ</a> <a id="4010" href="Godelian.html#343" class="Function">objs</a> <a id="4015" href="Godelian.html#312" class="Function">rels</a> <a id="4020" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a> <a id="4023" href="Godelian.html#3490" class="Function">G</a><a id="4024" class="Symbol">)</a>
+    <a id="4030" href="Godelian.html#3974" class="Function">¬[G-interpretation]</a> <a id="4050" class="Symbol">=</a> <a id="4052" href="Godelian.html#3799" class="Function">~G-interpretation</a>
+
+    <a id="4075" class="Comment">{-
+      The intuitive semantics of G, i.e. that there is no proof of G, is logically equivalent to the literal interpretation of G by model M.
+    -}</a>
+    <a id="4230" href="Godelian.html#4230" class="Function">¬¬[G-provable]</a> <a id="4245" class="Symbol">:</a> <a id="4247" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="4249" class="Symbol">(</a><a id="4250" href="Relation.Nullary.html#656" class="Function Operator">¬</a> <a id="4252" class="Symbol">(</a><a id="4253" href="Data.Product.html#916" class="Function">Σ[</a> <a id="4256" href="Godelian.html#4256" class="Bound">p</a> <a id="4258" href="Data.Product.html#916" class="Function">∈</a> <a id="4260" href="Godelian.html#522" class="Function">proofs</a> <a id="4267" href="Data.Product.html#916" class="Function">]</a> <a id="4269" class="Symbol">(</a><a id="4270" href="Godelian.html#594" class="Function">proves</a> <a id="4277" href="Godelian.html#4256" class="Bound">p</a> <a id="4279" href="Godelian.html#3490" class="Function">G</a><a id="4280" class="Symbol">)))</a>
+    <a id="4288" href="Godelian.html#4230" class="Function">¬¬[G-provable]</a> <a id="4303" href="Godelian.html#4303" class="Bound">hyp</a> <a id="4307" class="Symbol">=</a> <a id="4309" href="Godelian.html#3974" class="Function">¬[G-interpretation]</a> <a id="4329" class="Symbol">((</a><a id="4331" href="Agda.Builtin.Sigma.html#264" class="Field">proj₂</a> <a id="4337" class="Symbol">(</a><a id="4338" href="Godelian.html#1402" class="Function">Godel-semantics2</a> <a id="4355" href="Agda.Builtin.List.html#185" class="InductiveConstructor">[]</a><a id="4357" class="Symbol">))</a> <a id="4360" href="Godelian.html#4303" class="Bound">hyp</a><a id="4363" class="Symbol">)</a>
+
+    <a id="4370" class="Comment">{-
+      Bypassing constructiveness by invoking an assertion of a special case of double-negation elimination
+    -}</a>
+    <a id="4491" href="Godelian.html#4491" class="Function">G-provable</a> <a id="4502" class="Symbol">:</a> <a id="4504" href="Data.Product.html#916" class="Function">Σ[</a> <a id="4507" href="Godelian.html#4507" class="Bound">p</a> <a id="4509" href="Data.Product.html#916" class="Function">∈</a> <a id="4511" href="Godelian.html#522" class="Function">proofs</a> <a id="4518" href="Data.Product.html#916" class="Function">]</a> <a id="4520" class="Symbol">(</a><a id="4521" href="Godelian.html#594" class="Function">proves</a> <a id="4528" href="Godelian.html#4507" class="Bound">p</a> <a id="4530" href="Godelian.html#3490" class="Function">G</a><a id="4531" class="Symbol">)</a>
+    <a id="4537" href="Godelian.html#4491" class="Function">G-provable</a> <a id="4548" class="Symbol">=</a> <a id="4550" href="Godelian.html#1636" class="Function">proof-DNE</a> <a id="4560" href="Godelian.html#3490" class="Function">G</a> <a id="4562" href="Godelian.html#4230" class="Function">¬¬[G-provable]</a>
+
+    <a id="4582" class="Comment">{-
+      G provable implies ⊢ G by the semantics of ⊢
+    -}</a>
+    <a id="4647" href="Godelian.html#4647" class="Function">⊢G</a> <a id="4650" class="Symbol">:</a> <a id="4652" href="Godelian.html#573" class="Function">⊢</a> <a id="4654" href="Godelian.html#3490" class="Function">G</a>
+    <a id="4660" href="Godelian.html#4647" class="Function">⊢G</a> <a id="4663" class="Symbol">=</a> <a id="4665" class="Symbol">(</a><a id="4666" href="Agda.Builtin.Sigma.html#264" class="Field">proj₂</a> <a id="4672" class="Symbol">(</a><a id="4673" href="Godelian.html#710" class="Function">⊢-semantics</a> <a id="4685" href="Godelian.html#3490" class="Function">G</a><a id="4686" class="Symbol">))</a> <a id="4689" href="Godelian.html#4491" class="Function">G-provable</a>
+
+    <a id="4705" class="Comment">{-
+      Since both ⊢ G and ⊢ ~G , the logic is inconsistent
+    -}</a>
+    <a id="4777" href="Godelian.html#4777" class="Function">inconsistency</a> <a id="4791" class="Symbol">:</a> <a id="4793" href="Data.Product.html#916" class="Function">Σ[</a> <a id="4796" href="Godelian.html#4796" class="Bound">ϕ</a> <a id="4798" href="Data.Product.html#916" class="Function">∈</a> <a id="4800" href="FOL.html#207" class="Datatype">FOL</a> <a id="4804" href="Godelian.html#239" class="Function">n</a> <a id="4806" href="Data.Product.html#916" class="Function">]</a> <a id="4808" class="Symbol">(</a><a id="4809" href="Godelian.html#573" class="Function">⊢</a> <a id="4811" href="Godelian.html#4796" class="Bound">ϕ</a> <a id="4813" href="Data.Product.html#1167" class="Function Operator">×</a> <a id="4815" href="Godelian.html#573" class="Function">⊢</a> <a id="4817" class="Symbol">(</a><a id="4818" href="FOL.html#307" class="InductiveConstructor">~</a> <a id="4820" href="Godelian.html#4796" class="Bound">ϕ</a><a id="4821" class="Symbol">))</a>
+    <a id="4828" href="Godelian.html#4777" class="Function">inconsistency</a> <a id="4842" class="Symbol">=</a> <a id="4844" href="Godelian.html#3490" class="Function">G</a> <a id="4846" href="Agda.Builtin.Sigma.html#236" class="InductiveConstructor Operator">,</a> <a id="4848" class="Symbol">(</a><a id="4849" href="Godelian.html#4647" class="Function">⊢G</a> <a id="4852" href="Agda.Builtin.Sigma.html#236" class="InductiveConstructor Operator">,</a> <a id="4854" href="Godelian.html#3439" class="Bound">⊢~G</a><a id="4857" class="Symbol">)</a>
+
+    <a id="4864" class="Comment">{-
+      The inconsistency contradicts the assertion that ⊢ is consistent
+      QED
+    -}</a>
+    <a id="4959" href="Godelian.html#4959" class="Function">contradiction</a> <a id="4973" class="Symbol">=</a> <a id="4975" href="Godelian.html#992" class="Function">⊢-consistent</a> <a id="4988" href="Godelian.html#4777" class="Function">inconsistency</a>
+
+<a id="5003" class="Comment">{-
+Godel-undecidability :
+  (D : Domain) →
+  let
+    T = Domain.T D
+  in
+    μR-undecidable (_⊨_ T)
+Godel-undecidability D dec@(e , (e-bij , (f , (f-complete , f-sound)))) = proof
+  where
+    open Domain D
+
+    G = Godel
+
+    fG-dec : (μR-interp f ((e G) ∷ []) 0) ⊎ (μR-interp f ((e G) ∷ []) 1)
+    fG-dec = f-complete G
+
+    helper : (μR-interp f ((e G) ∷ []) 0) ⊎ (μR-interp f ((e G) ∷ []) 1) → ⊥
+    helper (inj₁ hyp) = subproof
+      where
+        ¬T⊨G : ¬ (T ⊨ G)
+        ¬T⊨G T⊨G = subsubproof
+          where
+            subsubproof
+        subproof
+    proof
+-}</a>
+</pre></body></html>
