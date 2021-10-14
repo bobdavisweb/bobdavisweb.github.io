@@ -11416,18 +11416,29 @@ html {
   color: #6c757d;
 }
 
+.vertical-center {
+  display: flex;
+  align-items: center;
+}
+
 .masthead {
   padding-top: 2rem;
   padding-bottom: 6rem;
+  /*
+  .masthead-right {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  */
 }
 .masthead .masthead-heading {
   font-size: 2.75rem;
   line-height: 2.75rem;
 }
 .masthead .masthead-subheading {
-  font-size: 1.25rem;
-  padding-top: 4em;
-  padding-bottom: 4em;
+  display: flex;
+  align-items: center;
+  height: 50%;
 }
 .masthead .masthead-avatar {
   width: 15rem;
@@ -11499,4 +11510,20 @@ html {
 
 .copyright {
   background-color: #171717;
+}
+
+.icon {
+  padding: 0;
+  width: 4rem;
+  height: 4rem;
+  margin: 0.5rem;
+}
+
+.tech-stack {
+  padding-top: 2rem;
+  width: 24rem;
+}
+
+.horizontal-center {
+  justify-content: center;
 }
