@@ -11416,11 +11416,6 @@ html {
   color: #6c757d;
 }
 
-.vertical-center {
-  display: flex;
-  align-items: center;
-}
-
 .masthead {
   padding-top: 2rem;
   padding-bottom: 6rem;
@@ -11442,6 +11437,12 @@ html {
 }
 .masthead .masthead-avatar {
   width: 15rem;
+}
+.masthead .col-lg-6 {
+  margin-top: 2rem;
+}
+.masthead .col-lg-4 {
+  margin-top: 2rem;
 }
 
 @media (min-width: 992px) {
@@ -11524,6 +11525,29 @@ html {
   width: 24rem;
 }
 
+.vertical-center {
+  display: flex;
+  align-items: center;
+}
+
 .horizontal-center {
   justify-content: center;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.text-align-left {
+  text-align: left;
 }

@@ -43,13 +43,10 @@
                         <h1 class="masthead-heading text-uppercase mb-0">Bob Davis</h1>
                     </div>
                     <div class="col-lg-4">
-                        <div class="vertical-center masthead-subheading font-weight-light mb-0">
-                            <p>
-                                Over 10 years of professional experience in
-                                <strong><i>full-stack web development!</i></strong>
-                            </p>
-                        </div>
-                        <div class="vertical-center masthead-subheading font-weight-light mb-0">
+                        <!-- value proposition-->
+                        <div class="center masthead-subheading font-weight-light mb-0"><p>Over 10 years of professional experience in full-stack web development</p></div>
+                        <!-- call to action-->
+                        <div class="center masthead-subheading font-weight-light mb-0">
                             <p>
                                 Contact me at:
                                 <strong>bobdavisweb@gmail.com</strong>
@@ -73,32 +70,32 @@
                 </div>
                 <!-- Portfolio Grid Items-->
                 <div class="row justify-content-center">
-                    <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="col-md-6 col-lg-4 mb-5 center">
                         <div class="portfolio-item">
                             <a href="http://ec2-18-220-149-42.us-east-2.compute.amazonaws.com/"><img class="img-fluid" src="assets/img/portfolio/visualizer.png" alt="..." /></a>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="col-md-6 col-lg-4 mb-5 center">
                         <div class="portfolio-item">
                             <a href="https://www.bohomarketing.co/"><img class="img-fluid" src="assets/img/portfolio/bohomarketing.jpeg" alt="..." /></a>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="col-md-6 col-lg-4 mb-5 center">
                         <div class="portfolio-item">
                             <a href="https://sentimentalfools.net/"><img class="img-fluid" src="assets/img/portfolio/sentimentalfools.jpeg" alt="..." /></a>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="col-md-6 col-lg-4 mb-5 center">
                         <div class="portfolio-item">
                             <a href="https://www.wighttea.com/teas"><img class="img-fluid" src="assets/img/portfolio/wightteaco.jpeg" alt="..." /></a>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="col-md-6 col-lg-4 mb-5 center">
                         <div class="portfolio-item">
                             <a href="https://lifewithlaurbrooke.wordpress.com/"><img class="img-fluid" src="assets/img/portfolio/lifewithlaur.jpeg" alt="..." /></a>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-4 mb-5">
+                    <div class="col-md-6 col-lg-4 mb-5 center">
                         <div class="portfolio-item">
                             <a href="https://shopida.org/"><img class="img-fluid" src="assets/img/portfolio/shopida.jpeg" alt="..." /></a>
                         </div>
@@ -119,35 +116,23 @@
                 </div>
                 <!-- About Section Content-->
                 <div class="row">
-                    <div class="col-lg-6 ms-auto"><p class="lead">I can help you build your website from design to deployment.</p></div>
-                    <div class="col-lg-6 ms-auto">
+                    <div class="col-lg-6 ms-auto"><p class="lead">I can help you build your website from design to deployment. I have over 10 years of professional experience with dozens of front-end and back-end web languages, libraries and frameworks. I work with all the major CMS platforms including Wordpress, Wix, and Squarespace. I have a passion for delivering high-quality, cost-effective solutions, tailored to fit your business needs.</p></div>
+                    <div class="col-lg-6 ms-auto text-align-center">
                         <!--p.lead| Web design, web development, data analysis, data visualization, API integration.-->
-                        <ul class="lead">
-                            <li>Custom websites</li>
-                            <li>Clean, responsive, modern design</li>
-                            <li>SEO</li>
-                            <li>Accessibility</li>
-                            <li>Analytics</li>
-                            <li>Payment processing</li>
-                            <li>API integration</li>
-                            <li>Scalability</li>
-                            <li>Data analysis</li>
-                            <li>Data visualization</li>
-                        </ul>
-                        <!--ul.leadeach service in services
-  li service
-  
-li Custom websites
-li Clean, responsive, modern design
-li SEO
-li Accessibility
-li Analytics
-li Payment processing
-li API integration
-li Scalability
-li Data analysis
-li Data visualization
--->
+                        <div class="inline-block text-align-left">
+                            <ul class="lead">
+                                <li>Custom websites</li>
+                                <li>Clean, responsive, modern design</li>
+                                <li>SEO</li>
+                                <li>Accessibility</li>
+                                <li>Analytics</li>
+                                <li>Payment processing</li>
+                                <li>API integration</li>
+                                <li>Scalability</li>
+                                <li>Data analysis</li>
+                                <li>Data visualization</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <!-- About Section Tech Stack-->
@@ -169,101 +154,6 @@ li Data visualization
                 </div>
             </div>
         </section>
-        <!-- Contact Section-->
-        <!--section#contact.page-section.container
-    // Contact Section Heading
-    h2.page-section-heading.text-center.text-uppercase.text-secondary.mb-0 Contact Me
-    // Icon Divider
-    .divider-custom
-        .divider-custom-line
-        .divider-custom-icon
-            i.fas.fa-star
-        .divider-custom-line
-    // Contact Section Form
-    .row.justify-content-center
-        .col-lg-8.col-xl-7
-
-            // * * * * * * * * * * * * * * *
-            // * * SB Forms Contact Form * *
-            // * * * * * * * * * * * * * * *
-
-            // This form is pre-integrated with SB Forms.
-            // To make this form functional, sign up at
-            // https://startbootstrap.com/solution/contact-forms
-            // to get an API token!
-
-            form#contactForm(data-sb-form-api-token='API_TOKEN')
-
-                // Name input
-                .form-floating.mb-3
-                    input#name.form-control(
-                        type='text',
-                        placeholder='Enter your name...',
-                        data-sb-validations='required'
-                    )
-                    label(for='name') Full name
-                    .invalid-feedback(data-sb-feedback='name:required')
-                        | A name is required.
-
-                // Email address input
-                .form-floating.mb-3
-                    input#email.form-control(
-                        type='email',
-                        placeholder='name@example.com',
-                        data-sb-validations='required,email'
-                    )
-                    label(for='email') Email address
-                    .invalid-feedback(data-sb-feedback='email:required')
-                        | An email is required.
-                    .invalid-feedback(data-sb-feedback='email:email')
-                        | Email is not valid.
-
-                // Phone number input
-                .form-floating.mb-3
-                    input#phone.form-control(
-                        type='tel',
-                        placeholder='(123) 456-7890',
-                        data-sb-validations='required'
-                    )
-                    label(for='phone') Phone number
-                    .invalid-feedback(data-sb-feedback='phone:required')
-                        | A phone number is required.
-
-                // Message input
-                .form-floating.mb-3
-                    textarea#message.form-control(
-                        type='text',
-                        placeholder='Enter your message here...',
-                        style='height: 10rem;',
-                        data-sb-validations='required'
-                    )
-                    label(for='message') Message
-                    .invalid-feedback(data-sb-feedback='message:required')
-                        | A message is required.
-
-                // Submit success message
-                //
-                // This is what your users will see when the form
-                // has successfully submitted
-
-                #submitSuccessMessage.d-none
-                    .text-center.mb-3
-                        .fw-bolder Form submission successful!
-                        | To activate this form, sign up at
-                        br
-                        a(href='https://startbootstrap.com/solution/contact-forms') https://startbootstrap.com/solution/contact-forms
-
-                // Submit error message
-                //
-                // This is what your users will see when there is
-                // an error submitting the form
-
-                #submitErrorMessage.d-none
-                    .text-center.text-danger.mb-3 Error sending message!
-
-                // Submit Button
-                button#submitButton.btn.btn-primary.btn-xl.disabled(type='submit') Send
--->
         <!-- Footer-->
         <footer class="footer text-center">
             <div class="container">
@@ -271,12 +161,6 @@ li Data visualization
                     <!-- Footer Social Icons-->
                     <div class="col-lg-6 mb-5 mb-lg-0">
                         <h4 class="text-uppercase mb-4">Around the Web</h4>
-                        <!--a.btn.btn-outline-light.btn-social.mx-1(href='#!')-->
-                        <!--    i.fab.fa-fw.fa-facebook-f-->
-                        <!--a.btn.btn-outline-light.btn-social.mx-1(href='#!')-->
-                        <!--    i.fab.fa-fw.fa-twitter-->
-                        <!--a.btn.btn-outline-light.btn-social.mx-1(href='#!')-->
-                        <!--    i.fab.fa-fw.fa-linkedin-in-->
                         <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/sto0pkid"><i class="fab fa-fw fa-github"></i></a>
                     </div>
                     <!-- Footer About Text-->
